@@ -1,0 +1,49 @@
+version: "3.2"
+services:
+  webserver_container:
+    container_name: 'container_webserver'
+    build: ./docker/webserver
+    ports:
+      - "8080:80"
+    volumes:
+      - ./docker/webserver/log:/var/log/apache2
+      - ./public:/var/www/html
+    links:
+      - database_container
+      - phpmyadmin
+    depends_on:
+      - database_container
+      - phpmyadmin
+    restart: on-failure
+  database_container:
+    container_name: 'container_dbhost'
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - dbvolume:/var/lib/mysql
+      - ./docker/database/dump:/docker-entrypoint-initdb.d
+      - ./docker/database/log:/var/log/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpass
+      - MYSQL_DATABASE=dbname
+      - MYSQL_USER=dbuser
+      - MYSQL_PASSWORD=dbpass
+    ports:
+      - "3306:3306"
+  phpmyadmin:
+    container_name: 'container_phpmyadmin'
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    ports:
+      - 8181:80
+    environment:
+      MYSQL_USERNAME: dbuser
+      MYSQL_PASSWORD: dbpass
+      MYSQL_ROOT_PASSWORD: rootpass
+      PMA_HOST: container_dbhost
+    links:
+      - database_container
+    depends_on:
+      - database_container
+volumes:
+  dbvolume:
