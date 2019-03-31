@@ -42,8 +42,12 @@ RUN add-apt-repository ppa:brightbox/ruby-ng -y && \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # config to enable .htaccess
-ADD apache_default /etc/apache2/sites-available/000-default.conf
+#ADD etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
+
+RUN apt-get -y --force-yes install \
+ php-xdebug \
+ vim
 
 # Configure /app folder with sample app
 #RUN git clone https://github.com/kuflievskiy/drupal /app
