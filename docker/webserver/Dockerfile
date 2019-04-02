@@ -33,10 +33,10 @@ RUN apt-get update && \
 
 # Adds Ruby 2.1 to Ubuntu 14.04
 # and install "Web Package Update checker"
-RUN add-apt-repository ppa:brightbox/ruby-ng -y && \
-    apt-get update && \
-    apt-get install ruby2.1 -y && \
-    gem install web-puc
+#RUN add-apt-repository ppa:brightbox/ruby-ng -y && \
+#    apt-get update && \
+#    apt-get install ruby2.1 -y && \
+#    gem install web-puc
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
