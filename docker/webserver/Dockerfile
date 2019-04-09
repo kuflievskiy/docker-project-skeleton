@@ -1,8 +1,16 @@
 FROM ubuntu:trusty
 MAINTAINER Kuflievskiy Aleksey <kuflievskiy@gmail.com>
 
-LABEL "name"="DEV Docker Environment"
-LABEL "version"="1.0.0"
+# Labels.
+LABEL org.label-schema.schema-version="1.0"
+LABEL org.label-schema.build-date="2019-04-09"
+LABEL org.label-schema.name="kuflievskiy/docker-project-skeleton"
+LABEL org.label-schema.maintainer="kuflievskiy@gmail.com"
+LABEL org.label-schema.description="Docker project skeleton"
+LABEL org.label-schema.url="https://github.com/kuflievskiy/docker-project-skeleton"
+LABEL org.label-schema.vcs-url="https://github.com/kuflievskiy/docker-project-skeleton"
+LABEL org.label-schema.version="1.0"
+LABEL org.label-schema.docker.cmd="docker-compose up -d --build"
 
 # Install packages
 ENV DEBIAN_FRONTEND noninteractive
@@ -49,6 +57,11 @@ RUN apt-get -y --force-yes install \
  php-xdebug \
  vim
 
+# Install sSMTP service.
+RUN apt-get update && \
+    apt-get install -y ssmtp && \
+    apt-get clean
+
 # Configure /app folder with sample app
 #RUN git clone https://github.com/kuflievskiy/drupal /app
 #RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
@@ -62,5 +75,7 @@ ENV PHP_POST_MAX_SIZE 10M
 # VOLUME  ["/etc/mysql", "/var/lib/mysql", "/var/log/apache2" ]
 
 EXPOSE 80
+EXPOSE 443
+
 #CMD apachectl -DFOREGROUND
 CMD ["apachectl", "-DFOREGROUND"]

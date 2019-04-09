@@ -10,6 +10,7 @@ services:
       - ./public:/var/www/html
       - ./docker/webserver/etc/apache2/sites-available/000-default.conf:/etc/apache2/sites-available/000-default.conf
       - ./docker/webserver/etc/php/7.2/conf.d/20-xdebug.ini:/etc/php/7.2/apache2/conf.d/20-xdebug.ini
+      - ./docker/webserver/etc/ssmtp/ssmtp.conf:/etc/ssmtp/ssmtp.conf
     links:
       - database_container
       - phpmyadmin

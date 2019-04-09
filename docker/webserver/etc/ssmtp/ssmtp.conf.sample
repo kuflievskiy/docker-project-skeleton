@@ -1,0 +1,33 @@
+#
+# Config file for sSMTP sendmail
+#
+# The person who gets all mail for userids < 1000
+# Make this empty to disable rewriting.
+root=<LOGIN>@gmail.com
+
+# The place where the mail goes. The actual machine name is required no
+# MX records are consulted. Commonly mailhosts are named mail.domain.com
+mailhub=smtp.gmail.com:587
+
+# Where will the mail seem to come from?
+rewriteDomain=gmail.com
+
+# The full hostname.  Must be correctly formed, fully qualified domain name or GMail will reject connection.
+hostname=localhost
+
+# Are users allowed to set their own From: address?
+# YES - Allow the user to specify their own From: address
+# NO - Use the system generated From: address
+FromLineOverride=YES
+
+# Auth
+AuthUser=<LOGIN>@gmail.com
+AuthPass=<PASSWORD>
+AuthMethod=LOGIN
+
+# Use SSL/TLS before starting negotiation
+UseTLS=Yes
+UseSTARTTLS=Yes
+
+# https://myaccount.google.com/lesssecureapps
+# https://accounts.google.com/b/0/DisplayUnlockCaptcha
