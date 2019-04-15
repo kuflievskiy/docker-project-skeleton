@@ -1,5 +1,9 @@
-#
 # Config file for sSMTP sendmail
+#
+# Documentation
+# https://myaccount.google.com/lesssecureapps
+# https://accounts.google.com/b/0/DisplayUnlockCaptcha
+#
 #
 # The person who gets all mail for userids < 1000
 # Make this empty to disable rewriting.
@@ -28,6 +32,3 @@ AuthMethod=LOGIN
 # Use SSL/TLS before starting negotiation
 UseTLS=Yes
 UseSTARTTLS=Yes
-
-# https://myaccount.google.com/lesssecureapps
-# https://accounts.google.com/b/0/DisplayUnlockCaptcha
