@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM ubuntu:16.04
 MAINTAINER Kuflievskiy Aleksey <kuflievskiy@gmail.com>
 
 # Labels.
@@ -13,12 +13,18 @@ LABEL org.label-schema.version="1.0"
 LABEL org.label-schema.docker.cmd="docker-compose up -d --build"
 
 # Install packages
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && \
-  apt-get -y --force-yes install software-properties-common && \
-  add-apt-repository -y ppa:ondrej/php && \
-  apt-get update && \
-  apt-get -y --force-yes install \
+#ENV DEBIAN_FRONTEND noninteractive
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt-get update && \
+    apt-get install -y language-pack-en-base &&\
+    export LC_ALL=en_US.UTF-8 && \
+    export LANG=en_US.UTF-8
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y software-properties-common
+RUN DEBIAN_FRONTEND=noninteractive LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php
+
+RUN apt-get update
+RUN apt-get -y install \
     supervisor \
     git \
     apache2 \
@@ -30,12 +36,13 @@ RUN apt-get update && \
     php7.2-zip zip unzip \
     php7.2-gd \
     php7.2-xml \
-    php7.2-mbstring && \
-  echo "ServerName localhost" >> /etc/apache2/apache2.conf
+    php7.2-mbstring
+
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # installing soap
 #RUN apt-get update -y \
-#  && apt-get install -y --force-yes \
+#  && apt-get install -y \
 #    libxml2-dev \
 #    php-soap
 
@@ -53,7 +60,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 #ADD etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
 
-RUN apt-get -y --force-yes install \
+RUN apt-get -y install \
  php-xdebug \
  vim
 
