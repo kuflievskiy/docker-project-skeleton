@@ -4,7 +4,7 @@ services:
     container_name: 'container_webserver'
     build: ./docker/webserver
     ports:
-      - "8080:80"
+      - "8080:80" # host_port:container_port
     volumes:
       - ./docker/webserver/log:/var/log/apache2
       - ./public:/var/www/html

@@ -60,3 +60,15 @@ sudo docker exec -it container_dbhost bin/bash
 ```bash
 netstat -an|grep LISTEN
 ```
+
+# Install the site (Drupal/Wordpress)
+```
+docker exec container_webserver wordpress.sh
+http://localhost:8080/
+http://localhost:8080/wp-login.php
+admin
+admin
+
+docker exec container_webserver drupal.sh
+http://localhost:8080/
+```

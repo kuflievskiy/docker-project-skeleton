@@ -85,6 +85,14 @@ ENV PHP_POST_MAX_SIZE 10M
 # /var/lib/docker/volumes/%folder-name%
 # VOLUME  ["/etc/mysql", "/var/lib/mysql", "/var/log/apache2" ]
 
+COPY install-scripts/wordpress.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/wordpress.sh
+
+COPY install-scripts/drupal.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/drupal.sh
+
+WORKDIR /var/www/html
+
 EXPOSE 80
 EXPOSE 443
 
