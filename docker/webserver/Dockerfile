@@ -1,6 +1,9 @@
 FROM ubuntu:16.04
 MAINTAINER Kuflievskiy Aleksey <kuflievskiy@gmail.com>
 
+LABEL "name"="Webserver"
+LABEL "version"="0.0.1"
+
 # Labels.
 LABEL org.label-schema.schema-version="1.0"
 LABEL org.label-schema.build-date="2019-04-09"
@@ -24,27 +27,28 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y software
 RUN DEBIAN_FRONTEND=noninteractive LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php
 
 RUN apt-get update
-RUN apt-get -y install \
+RUN apt-get update && \
+  apt-get -y install \
     supervisor \
     git \
     apache2 \
-    libapache2-mod-php7.2 \
+    libapache2-mod-php7.3 \
     curl \
     wget \
-    php-curl \
-    php7.2-mysqli \
-    php7.2-zip zip unzip \
-    php7.2-gd \
-    php7.2-xml \
-    php7.2-mbstring
-
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+    libnss3-dev \
+    php7.3-curl \
+    php7.3-mysqli \
+    php7.3-zip zip unzip \
+    php7.3-gd \
+    php7.3-xml \
+    php7.3-mbstring && \
+  echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # installing soap
 #RUN apt-get update -y \
 #  && apt-get install -y \
 #    libxml2-dev \
-#    php-soap
+#    php7.3-soap
 
 # Adds Ruby 2.1 to Ubuntu 14.04
 # and install "Web Package Update checker"

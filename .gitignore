@@ -1,5 +1,6 @@
 .idea/
 .DS_Store
-docker/webserver/log/*
-docker/database/log/*
+/docker/webserver/log/*
+/docker/database/log/*
 /docker/webserver/etc/ssmtp/ssmtp.conf
+/docker/sonarqube/logs/*
