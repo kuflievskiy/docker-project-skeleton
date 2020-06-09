@@ -58,6 +58,8 @@ sudo docker exec -it container_dbhost bin/bash
 # Get the list of active processes inside the container which listen to some port.
 
 ```bash
+apt-get update
+apt-get install -y net-tools
 netstat -an|grep LISTEN
 ```
 
