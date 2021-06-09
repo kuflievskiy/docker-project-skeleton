@@ -1,8 +1,8 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 MAINTAINER Kuflievskiy Aleksey <kuflievskiy@gmail.com>
 
 LABEL "name"="Webserver"
-LABEL "version"="0.0.1"
+LABEL "version"="0.0.2"
 
 # Labels.
 LABEL org.label-schema.schema-version="1.0"
@@ -16,39 +16,30 @@ LABEL org.label-schema.version="1.0"
 LABEL org.label-schema.docker.cmd="docker-compose up -d --build"
 
 # Install packages
-#ENV DEBIAN_FRONTEND noninteractive
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get update && \
-    apt-get install -y language-pack-en-base &&\
-    export LC_ALL=en_US.UTF-8 && \
-    export LANG=en_US.UTF-8
-
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y software-properties-common
 RUN DEBIAN_FRONTEND=noninteractive LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php
 
-RUN apt-get update
-RUN apt-get update && \
-  apt-get -y install \
+RUN apt-get -y install \
     supervisor \
     git \
     apache2 \
-    libapache2-mod-php7.3 \
+    libapache2-mod-php7.4 \
     curl \
     wget \
     libnss3-dev \
-    php7.3-curl \
-    php7.3-mysqli \
-    php7.3-zip zip unzip \
-    php7.3-gd \
-    php7.3-xml \
-    php7.3-mbstring && \
+    php7.4-curl \
+    php7.4-mysqli \
+    php7.4-zip zip unzip \
+    php7.4-gd \
+    php7.4-xml \
+    php7.4-mbstring && \
   echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # installing soap
 #RUN apt-get update -y \
 #  && apt-get install -y \
 #    libxml2-dev \
-#    php7.3-soap
+#    php7.4-soap
 
 # Adds Ruby 2.1 to Ubuntu 14.04
 # and install "Web Package Update checker"
@@ -96,5 +87,4 @@ WORKDIR /var/www/html
 EXPOSE 80
 EXPOSE 443
 
-#CMD apachectl -DFOREGROUND
 CMD ["apachectl", "-DFOREGROUND"]
