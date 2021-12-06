@@ -40,7 +40,13 @@ vim docker/webserver/etc/ssmtp/ssmtp.conf
 ## Build images & run the containers.
 
 ```bash
-sudo docker-compose up -d --build
+docker-compose -f docker-compose-php73.yml up -d --build
+docker-compose -f docker-compose-php74.yml up -d --build
+docker-compose -f docker-compose-php80.yml up -d --build
+
+# how to use local UID & GID via docker-compose container "args" and pass them into the container
+# this approach requires to uncomment the appropriate sections inside the docker-compose file & Dockerfile also.
+LOCAL_UID="$(id -u)" LOCAL_GID="$(id -g)" LOCAL_USER="$USER" docker-compose -f docker-compose-php80.yml up -d --build
 ```
 
 ## Access the site by URL.

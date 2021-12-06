@@ -15,10 +15,30 @@ LABEL org.label-schema.vcs-url="https://github.com/kuflievskiy/docker-project-sk
 LABEL org.label-schema.version="1.0"
 LABEL org.label-schema.docker.cmd="docker-compose up -d --build"
 
+# This section could be used on Ubuntu during the development
+# Usage example: docker exec container_webserver chown -R $USER /var/www/html
+#
+# ARG LOCAL_USER
+# ARG LOCAL_UID
+# ARG LOCAL_GID
+#
+# Create a user group '$LOCAL_USER'
+# RUN addgroup $LOCAL_USER --gid $LOCAL_GID
+#
+# Create a user '$LOCAL_USER'
+# RUN adduser --system --uid $LOCAL_UID --home /var/www/html $LOCAL_USER
+#
+# usermod -a -G groupname username
+# RUN usermod -a -G root $LOCAL_USER
+#
+# Chown all the files to the app user.
+# RUN chown -R $LOCAL_USER:$LOCAL_USER /var/www/html
+
 # Install packages
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y software-properties-common
 RUN DEBIAN_FRONTEND=noninteractive LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php
 
+RUN apt-get update
 RUN apt-get -y install \
     supervisor \
     git \
@@ -56,7 +76,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN a2enmod rewrite
 
 RUN apt-get -y install \
- php-xdebug \
+ php7.4-xdebug \
  vim
 
 # Install sSMTP service.

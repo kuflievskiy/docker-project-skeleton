@@ -1,0 +1,63 @@
+version: "3.2"
+services:
+  webserver_container:
+    container_name: 'container_webserver'
+    build: ./docker/webserver
+    ports:
+      - "8080:80" # host_port:container_port
+    volumes:
+      - ./docker/webserver/log:/var/log/apache2
+      - ./public:/var/www/html
+      - ./docker/webserver/etc/apache2/sites-available/000-default.conf:/etc/apache2/sites-available/000-default.conf
+#      - ./docker/webserver/etc/php/7.3/conf.d/20-xdebug.ini:/etc/php/7.3/apache2/conf.d/20-xdebug.ini
+#      - ./docker/webserver/etc/ssmtp/ssmtp.conf:/etc/ssmtp/ssmtp.conf
+    links:
+      - database_container
+      - phpmyadmin
+    depends_on:
+      - database_container
+      - phpmyadmin
+    restart: on-failure
+  database_container:
+    container_name: 'container_dbhost'
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - dbvolume:/var/lib/mysql
+      - ./docker/database/dump:/docker-entrypoint-initdb.d
+      - ./docker/database/log:/var/log/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpass
+      - MYSQL_DATABASE=dbname
+      - MYSQL_USER=dbuser
+      - MYSQL_PASSWORD=dbpass
+    ports:
+      - "3306:3306"
+  phpmyadmin:
+    container_name: 'container_phpmyadmin'
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    ports:
+      - 8181:80
+    environment:
+      MYSQL_USERNAME: dbuser
+      MYSQL_PASSWORD: dbpass
+      MYSQL_ROOT_PASSWORD: rootpass
+      PMA_HOST: container_dbhost
+    links:
+      - database_container
+    depends_on:
+      - database_container
+#  sonarqube_container:
+#    container_name: 'container_sonarqube'
+#    image: sonarqube:latest
+#    restart: always
+#    ports:
+#      - 9999:9000
+#    volumes:
+#      - ./docker/sonarqube/conf:/opt/sonarqube/conf
+#      - ./docker/sonarqube/data:/opt/sonarqube/data
+#      - ./docker/sonarqube/logs:/opt/sonarqube/logs
+#      - ./docker/sonarqube/extensions:/opt/sonarqube/extensions
+volumes:
+  dbvolume:
