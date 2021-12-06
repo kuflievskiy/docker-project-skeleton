@@ -2,7 +2,14 @@ version: "3.2"
 services:
   webserver_container:
     container_name: 'container_webserver'
-    build: ./docker/webserver
+#    build: ./docker/webserver
+    build:
+      context: ./docker/webserver
+      dockerfile: Dockerfile_php73
+#      args:
+#        LOCAL_USER: $LOCAL_USER
+#        LOCAL_UID: $LOCAL_UID
+#        LOCAL_GID: $LOCAL_GID
     ports:
       - "8080:80" # host_port:container_port
     volumes:

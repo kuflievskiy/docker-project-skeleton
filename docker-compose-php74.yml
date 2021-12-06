@@ -2,14 +2,21 @@ version: "3.2"
 services:
   webserver_container:
     container_name: 'container_webserver'
-    build: ./docker/webserver
+#    build: ./docker/webserver
+    build:
+      context: ./docker/webserver
+      dockerfile: Dockerfile_php74
+#      args:
+#        LOCAL_USER: $LOCAL_USER
+#        LOCAL_UID: $LOCAL_UID
+#        LOCAL_GID: $LOCAL_GID
     ports:
       - "8080:80" # host_port:container_port
     volumes:
       - ./docker/webserver/log:/var/log/apache2
       - ./public:/var/www/html
       - ./docker/webserver/etc/apache2/sites-available/000-default.conf:/etc/apache2/sites-available/000-default.conf
-#      - ./docker/webserver/etc/php/7.3/conf.d/20-xdebug.ini:/etc/php/7.3/apache2/conf.d/20-xdebug.ini
+      - ./docker/webserver/etc/php/7.4/conf.d/20-xdebug.ini:/etc/php/7.4/apache2/conf.d/20-xdebug.ini
 #      - ./docker/webserver/etc/ssmtp/ssmtp.conf:/etc/ssmtp/ssmtp.conf
     links:
       - database_container
