@@ -25,6 +25,9 @@ services:
       - database_container
       - phpmyadmin
     restart: on-failure
+#    extra_hosts:
+#      # Ubuntu specific issue: support host.docker.internal as on Mac & Windows
+#      - "host.docker.internal:host-gateway"
   database_container:
     container_name: 'container_dbhost'
     image: mysql:5.7
